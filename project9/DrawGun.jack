@@ -1,8 +1,0 @@
-Screen.setColor(true);
-Screen.drawRectangle(8,112,80,128);
-Screen.drawRectangle(16,104,24,112);
-Screen.drawRectangle(11,128,32,160);
-Screen.drawRectangle(72,104,80,112);
-Screen.drawRectangle(36,128,40,136);
-Screen.drawRectangle(44,128,48,144);
-Screen.drawRectangle(32,140,44,144);
