@@ -1,0 +1,37 @@
+class Game {
+    constructor Game new() {
+
+    }
+
+    method void play() {
+        Screen.clear()
+        var int level;
+        Screen.print("Hi, welcome to the shooting game, choose a difficulty level")
+        Screen.printline
+        Screen.print("1: EASY, 2: Medium, 3: Hard")
+        let level = get_difficulty_level();
+        gun = Gun.new()
+        bullet = Bullet.new()
+        target = Target.new(coords)
+        target.move();
+        screen.print("press space to shoot")
+        
+
+
+    }
+
+    method int get_difficulty_level() {
+        var int level;
+        let level = Sys.get_line();
+        var int flag;
+        let flag = true;
+        while (flag == true) {
+            if (level < 1 or > 3) {
+                let level = Sys.get_line();
+            }
+            if level in [1,2,3] {
+                return level;
+            }
+        }
+    }
+}

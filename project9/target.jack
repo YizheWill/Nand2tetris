@@ -1,0 +1,62 @@
+class Target {
+    field int x, y;
+    field int speed;
+    field boolean game_on;
+    constructor Square new(int Ax, int Ay, int Aspeed, boolean Agame_on) {
+        let x = Ax;
+        let y = Ay;
+        let speed = Aspeed;
+        let game_on = Agame_on;
+        
+        do draw();
+        do move();
+        return this;
+    }
+
+    method void game_off() {
+        let game_on = false;
+    }
+
+    method void speedup() {
+        let speed = 5;
+    }
+
+    method void speed
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void drawTarget() {
+        do Screen.setColor(true)
+        do Screen.drawRectangular
+    }
+
+    method void moveTarget() {
+        var boolean moving_down;
+        let moving_down = true;
+        while (game_on == true) {
+            if (y < max_down_place && moving_down == true) {
+                do Screen.setColor(false);
+                do drawTarget();
+                y = y + speed;
+                do Screen.setColor(true);
+                do drawTarget();
+            }
+            if (y == max_down_place) {
+                let moving_down  = false;
+            }
+            if (y > 1 && moving_down == false) {
+                do Screen.setColor(false);
+                do drawTarget();
+                y = y - speed;
+                do Screen.setColor(true);
+                do drawTarget();
+            }
+        }
+        return;
+    }
+
+    // this draw method will draw a target
+}
