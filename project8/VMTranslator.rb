@@ -54,74 +54,42 @@ class CodeWriter
         when "add","sub","eq","gt","lt","and","or","neg","not"
             write_arithmetic
         when "push"
-            write_file(comment: "start of #{@parser.current_command}")
             write_push
-            write_file(comment: "end of #{@parser.current_command}")
         when "pop"
-            write_file(comment: "start of #{@parser.current_command}")
             write_pop
-            write_file(comment: "end of #{@parser.current_command}")
         when "label"
-            write_file(comment: "start of #{@parser.current_command}")
             write_label
-            write_file(comment: "end of #{@parser.current_command}")
         when "goto","if-goto"
-            write_file(comment: "start of #{@parser.current_command}")
             write_goto
-            write_file(comment: "end of #{@parser.current_command}")
         when "call"
-            write_file(comment: "start of #{@parser.current_command}")
             write_call
-            write_file(comment: "end of #{@parser.current_command}")
         when "function"
-            write_file(comment: "start of #{@parser.current_command}")
             write_function
-            write_file(comment: "end of #{@parser.current_command}")
         when "return"
-            write_file(comment: "start of #{@parser.current_command}")
             write_return
-            write_file(comment: "end of #{@parser.current_command}")
         end
     end
 
     def write_arithmetic
         case @parser[0]
         when "add"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "+")
-            write_file(comment: "end of #{@parser.current_command}")
         when "sub"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "-")
-            write_file(comment: "end of #{@parser.current_command}")
         when "eq"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "-", jump_type: "JEQ")
-            write_file(comment: "end of #{@parser.current_command}")
         when "gt"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "-", jump_type: "JGT")
-            write_file(comment: "end of #{@parser.current_command}")
         when "lt"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "-", jump_type: "JLT")
-            write_file(comment: "end of #{@parser.current_command}")
         when "and"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "&")
-            write_file(comment: "end of #{@parser.current_command}")
         when "or"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "|")
-            write_file(comment: "end of #{@parser.current_command}")
         when "neg"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "-", unary: true)
-            write_file(comment: "end of #{@parser.current_command}")
         when "not"
-            write_file(comment: "start of #{@parser.current_command}")
             arithmetic(calc: "!", unary: true)
-            write_file(comment: "end of #{@parser.current_command}")
         end
     end
 
@@ -162,7 +130,6 @@ class CodeWriter
     end
 
     def write_function
-        write_file(comment: "function_not_called")
         write_file(string: "(#{@parser[1]})")
         @parser[2].to_i.times do 
             write_file(string: "@0\nD=A")
