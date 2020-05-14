@@ -1,0 +1,79 @@
+class Bullet {
+    field int speed;
+    field int x;
+    constructor Bullet new(int Aspeed) {
+        let x = 0;
+        let speed = Aspeed;
+        return this;
+    }
+
+    method void draw_bullet() {
+        do Screen.drawCircle((x+104),120,7);
+        return;
+    }
+
+    method void move() {
+        /* the bullet moves along a line */
+        do Screen.setColor(true);
+        do draw_bullet();
+        if (x < (400 - 32 - speed)) {
+            do Screen.setColor(false);
+            do draw_bullet();
+            let x = x + speed;
+            do Screen.setColor(true);
+            do draw_bullet();
+        }
+        return;
+    }
+    
+    method void disappear() {
+        /* erase the bullet, and dispose it*/
+        do Screen.setColor(false);
+        do draw_bullet();
+        do dispose();
+        return;
+    }
+
+    method void blast(int location) {
+        /* when bullet hits the target, it will blast */
+        var int memAddress;
+        let memAddress = 16384+location;
+        do Memory.poke(memAddress+0, 8192);
+        do Memory.poke(memAddress+32, 30734);
+        do Memory.poke(memAddress+64, 15388);
+        do Memory.poke(memAddress+96, 2108);
+        do Memory.poke(memAddress+128, 56);
+        do Memory.poke(memAddress+160, 16384);
+        do Memory.poke(memAddress+192, 10294);
+        do Memory.poke(memAddress+224, 31806);
+        do Memory.poke(memAddress+256, 10294);
+        do Memory.poke(memAddress+288, 16384);
+        do Memory.poke(memAddress+320, 8);
+        do Memory.poke(memAddress+352, 10268);
+        do Memory.poke(memAddress+384, 31948);
+        do Memory.poke(memAddress+416, 14542);
+        do Memory.poke(memAddress+448, 24710);
+        do Memory.poke(memAddress+480, 0);
+        do Sys.wait(1000);
+        do Screen.setColor(false);
+        do Screen.drawRectangle(465,118, 483,135);
+        return;
+    }
+
+
+    method boolean hit() {
+        /* determine whether the bullet hits the target */
+        if (x > (400 - 32 - speed)) {
+            return true;
+        }
+        if (x = (400 - 32 - speed)) {
+            return true;
+        }
+        return false;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+}
