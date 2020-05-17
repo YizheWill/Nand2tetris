@@ -1,0 +1,84 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * Memory operations library.
+ */ 
+class Memory {
+	static Array memory;
+	static int base, max;
+	static int length;
+	static int nextNode;
+	static int endOfList;
+	
+    /** Initializes memory parameters. */
+    function void init() {
+		//each allocation of memory starts with 2 fields:
+		//first field for the size of the current alloc, named "size"
+		//and the second for pointer to the next alloc, named "nextNode"
+		let memory = 0;
+		let base = 2048;
+		let max = 16384;
+		let length = base;
+		let nextNode = base + 1;
+		let endOfList = -1;
+		let memory[length] = max - base;
+		let memory[nextNode] = endOfList;
+		return;
+    }
+
+    /** Returns the value of the main memory at the given address. */
+    function int peek(int address) {
+		return memory[address];
+    }
+
+    /** Sets the value of the main memory at this address
+     *  to the given value. */
+    function void poke(int address, int value) {
+		let memory[address] = value;
+		return;
+    }
+
+    /** finds and allocates from the heap a memory block of the 
+     *  specified size and returns a reference to its base address. */
+    function int alloc(int size) {
+		var int currNode;
+		var int prevNode;
+		var int next;
+		var int returnAddress;
+		
+		let prevNode = length;
+		let currNode = length;
+		let next = nextNode; 
+		let returnAddress = -1;
+		
+		while (~(memory[currNode] > size) & ~(memory[next] = endOfList)) {
+			let prevNode = currNode;
+			let currNode = memory[next];
+			let next = memory[next + 1];
+		}
+		if (~(next = endOfList)) { //found free block in the middle of the list
+			if (currNode < (size + 3)) {
+				let memory[prevNode + 1] = memory[currNode + 1];
+				let memory[currNode] = size + 1;
+				let returnAddress = currNode + 1;
+			}
+			else {
+				let memory[currNode] = memory[currNode] - size - 1;
+				let returnAddress = currNode + memory[currNode];
+				let memory[returnAddress - 1] = size + 1;
+			}
+		}
+		return returnAddress;
+    }
+
+    /** De-allocates the given object and frees its space. */
+    function void deAlloc(int object) {
+		let memory[object] = memory[object - 1];
+    	let memory[object + 1] = memory[length + 1];
+    	let memory[length + 1] = object;
+    	return;
+    }    
+}
